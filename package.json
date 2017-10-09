@@ -1,0 +1,35 @@
+{
+  "name": "shapesite",
+  "version": "1.0.0",
+  "description": "web application for shape security",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mjugger/shapesite.git"
+  },
+  "author": "Mukhtar Jugger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mjugger/shapesite/issues"
+  },
+  "homepage": "https://github.com/mjugger/shapesite#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "express": "^4.16.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.4.0",
+    "gulp-pug": "^3.3.0",
+    "gulp-stylus": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "pug": "^2.0.0-rc.4",
+    "stylus": "^0.54.5"
+  }
+}

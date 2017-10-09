@@ -1,0 +1,71 @@
+doctype html
+html
+    head
+        meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
+        meta(charset="UTF-8")
+        title Hi there everybody
+        link(rel='stylesheet', href='css/styles.css')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+        link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    body
+        #wrapper
+            .window-frame
+                nav.top-nav
+                    .logo
+                        .ribbon-bg
+                        img(src='imgs/shape-logo.png')
+                    .nav-links
+                        a(href='#') threats
+                        a(href='#') platform
+                        a(href='#') customers
+                        a(href='#') research
+                        a(href='#') about
+                        a(href='#') contact
+                .window.container
+                    .center-btns
+                        .focus-btn-container(style='left:50%;top:5%;')
+                            .diamond
+                                .diamond-btn
+                            .btn-text.right
+                                p banking
+                        .focus-btn-container(style='left:63%;top:20%;')
+                            .diamond
+                                .diamond-btn
+                            .btn-text.right
+                                p government
+                        .focus-btn-container(style='left:65%;top:35%;')
+                            .diamond
+                                .diamond-btn
+                            .btn-text.right
+                                p retail
+                        .focus-btn-container(style='left:63%;top:55%;')
+                            .diamond
+                                .diamond-btn
+                            .btn-text.right
+                                p darknet
+                        .focus-btn-container(style='left:28%;top:18%;')
+                            .diamond
+                                .diamond-btn
+                            .btn-text.left
+                                p airline
+                        .focus-btn-container(style='left:24%;top:40%;')
+                            .diamond
+                                .diamond-btn
+                            .btn-text.left
+                                p hotel
+                        .focus-btn-container(style='left:28%;top:65%;')
+                            .diamond
+                                .diamond-btn
+                            .btn-text.left
+                                p stolen credentials
+                .social-media
+                    i.fa.fa-facebook-official(aria-hidden='true')
+                    i.fa.fa-twitter(aria-hidden='true')
+                    i.fa.fa-comment-o(aria-hidden='true')
+                    p
+                        span chat
+                        |now with one of our experts
+            ng-view
+            block content
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.min.js')
+    script(src='js/all.js')

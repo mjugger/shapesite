@@ -1,0 +1,38 @@
+.top-nav
+    width: 1170px
+    color: #ffffff
+    text-transform: uppercase
+    *zoom: 1
+
+    &:before,&:after
+        content: " "
+        display: table
+
+    &:after
+        clear: both
+
+    .nav-links
+        display: inline-block
+        float: right
+        a
+            margin-left: 20px
+            font-size: 12px
+            text-decoration: none
+            color: #ffffff
+
+    .logo
+        display: inline-block
+        float: left
+        position: relative
+        img
+            width: 100px
+            z-index: 1
+            position: relative
+
+        .ribbon-bg
+            position: absolute
+            height: 100%
+            right: 0
+            top: 0
+            width: 100vw
+            background-color: #000000

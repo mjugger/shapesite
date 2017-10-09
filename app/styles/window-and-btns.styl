@@ -1,0 +1,106 @@
+.window
+    box-shadow: 0 0 0 99999px rgba(0, 0, 0, .5)
+    height: 700px
+    margin: 20px 0
+    display: flex
+    align-items: center
+    justify-content: center
+
+    .center-btns
+        width: 60%
+        height: 80%
+        position: relative
+
+
+.focus-btn-container
+    width: 50px
+    height: 50px
+    position: absolute
+
+    .btn-text.left
+        right: 61px
+        top: -9px
+        text-align: left
+
+    .btn-text.right
+        left: 61px
+        top: -9px
+        text-align: right
+
+    .btn-text
+        position: absolute
+        width: 250px
+        color: white
+        
+        p
+            text-transform: uppercase
+            border-bottom: 1px solid #444444
+
+
+.diamond
+    width: 50px
+    height: 50px
+    transform: rotate(45deg)
+    position: absolute
+    display: flex
+    align-items: center
+    justify-content: center
+
+.diamond-btn
+    width: 20px
+    height: 20px
+    position: absolute
+    background-color: #aaaaaa
+    display: flex
+    align-items: center
+    justify-content: center
+    animation-fill-mode: forwards
+    animation-duration: 0.8s
+    padding: 0px
+
+    &:hover
+        animation-name: example
+
+    &:after
+        width: 40px
+        height: 40px
+        background-color: #dddddd
+        position: absolute
+        content: ''
+        z-index: -1
+        animation-fill-mode: forwards
+        animation-duration: 0.5s
+
+    &:hover:after
+        animation-name: example2
+
+    &:before
+        width:50px
+        height: 50px
+        background-color: #eeeeee
+        position: absolute
+        content: ''
+        z-index: -1
+        transition: background-color 0.5s
+
+    &:hover:before
+        background-color: #fa3000
+
+
+@keyframes example
+    50%
+        width: 0px
+        height: 0px
+    100% 
+        width: 20px
+        height: 20px
+        background-color: #ffffff
+
+@keyframes example2
+    50% 
+        width: 0px
+        height: 0px
+    100% 
+        width: 40px
+        height: 40px
+        background-color: #ff5000
