@@ -19,6 +19,14 @@
             font-size: 12px
             text-decoration: none
             color: #ffffff
+            transition: transform 0.5s, opacity 0.5s
+            opacity: 0
+            display: inline-block
+            transform: translateX(100px)
+        &.intro
+            a
+                opacity: 1
+                transform: translateX(0px)
 
     .logo
         display: inline-block
@@ -27,12 +35,12 @@
         img
             width: 100px
             z-index: 1
+            opacity: 0
             position: relative
-
-        .ribbon-bg
-            position: absolute
-            height: 100%
-            right: 0
-            top: 0
-            width: 100vw
-            background-color: #000000
+            display: inline-block
+            transform: translateX(-100px)
+            transition: transform 0.5s, opacity 0.5s
+        &.intro
+            img
+                opacity: 1
+                transform: translateX(0px)

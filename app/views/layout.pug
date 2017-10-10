@@ -1,5 +1,5 @@
 doctype html
-html
+html(ng-app='shapesite')
     head
         meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
         meta(charset="UTF-8")
@@ -9,56 +9,102 @@ html
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
     body
         #wrapper
-            .window-frame
+            .window-frame(ng-controller='FocusbtnsController as $ctrl')
                 nav.top-nav
-                    .logo
+                    .logo(ng-class='{intro: $ctrl.permanentIntros}')
                         .ribbon-bg
                         img(src='imgs/shape-logo.png')
-                    .nav-links
+                    .nav-links(ng-class='{intro: $ctrl.permanentIntros}')
                         a(href='#') threats
                         a(href='#') platform
                         a(href='#') customers
                         a(href='#') research
                         a(href='#') about
                         a(href='#') contact
+                .intro-text-container
+                    h4(ng-class='{intro: $ctrl.leftTextIntro}').level-1
+                        span the worlds first
+                    h1(ng-class='{intro: $ctrl.leftTextIntro}').level-2
+                        span collective
+                        .ribbon-bg
+                    h1(ng-class='{intro: $ctrl.leftTextIntro}').level-3
+                        span defense
+                        .ribbon-bg
+                    h6(ng-class='{intro: $ctrl.leftTextIntro}').level-4
+                        span powered by AI and deep learning technology
+                        .ribbon-bg
                 .window.container
                     .center-btns
+                        .big-diamond-container(
+                            ng-class='{intro: $ctrl.leftTextIntro}'
+                            ng-click='$ctrl.mainHompageOutro()'
+                        )
+                            .big-diamond-btn(ng-class='{intro: $ctrl.leftTextIntro}')
+                                p(ng-class='{intro: $ctrl.leftTextIntro}').btn-text explore
                         .focus-btn-container(style='left:50%;top:5%;')
                             .diamond
-                                .diamond-btn
+                                .diamond-btn(ng-class='{intro: $ctrl.focusBtnIntros}')
                             .btn-text.right
-                                p banking
+                                p(ng-class='{intro: $ctrl.focusBtnIntros}') banking
+                                .anime-line-container
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
                         .focus-btn-container(style='left:63%;top:20%;')
                             .diamond
-                                .diamond-btn
+                                .diamond-btn(ng-class='{intro: $ctrl.focusBtnIntros}')
                             .btn-text.right
-                                p government
+                                p(ng-class='{intro: $ctrl.focusBtnIntros}') government
+                                .anime-line-container
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
                         .focus-btn-container(style='left:65%;top:35%;')
                             .diamond
-                                .diamond-btn
+                                .diamond-btn(ng-class='{intro: $ctrl.focusBtnIntros}')
                             .btn-text.right
-                                p retail
+                                p(ng-class='{intro: $ctrl.focusBtnIntros}') retail
+                                .anime-line-container
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
                         .focus-btn-container(style='left:63%;top:55%;')
                             .diamond
-                                .diamond-btn
+                                .diamond-btn(ng-class='{intro: $ctrl.focusBtnIntros}')
                             .btn-text.right
-                                p darknet
+                                p(ng-class='{intro: $ctrl.focusBtnIntros}') darknet
+                                .anime-line-container
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
                         .focus-btn-container(style='left:28%;top:18%;')
                             .diamond
-                                .diamond-btn
+                                .diamond-btn(ng-class='{intro: $ctrl.focusBtnIntros}')
                             .btn-text.left
-                                p airline
+                                p(ng-class='{intro: $ctrl.focusBtnIntros}') airline
+                                .anime-line-container
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
                         .focus-btn-container(style='left:24%;top:40%;')
                             .diamond
-                                .diamond-btn
+                                .diamond-btn(ng-class='{intro: $ctrl.focusBtnIntros}')
                             .btn-text.left
-                                p hotel
+                                p(ng-class='{intro: $ctrl.focusBtnIntros}') hotel
+                                .anime-line-container
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
                         .focus-btn-container(style='left:28%;top:65%;')
                             .diamond
-                                .diamond-btn
+                                .diamond-btn(ng-class='{intro: $ctrl.focusBtnIntros}')
                             .btn-text.left
-                                p stolen credentials
-                .social-media
+                                p(ng-class='{intro: $ctrl.focusBtnIntros}') stolen credentials
+                                .anime-line-container
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                                    .anime-lines(ng-class='{intro: $ctrl.focusBtnIntros}')
+                .social-media(ng-class='{intro: $ctrl.permanentIntros}')
                     i.fa.fa-facebook-official(aria-hidden='true')
                     i.fa.fa-twitter(aria-hidden='true')
                     i.fa.fa-comment-o(aria-hidden='true')
@@ -68,4 +114,4 @@ html
             ng-view
             block content
     script(src='https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.min.js')
-    script(src='js/all.js')
+    script(src='js/bundle.js')

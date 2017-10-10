@@ -1,3 +1,7 @@
+require('./OBJLoader');
+require('./OrbitControls');
+require('./lzma');
+
 (() => {
     var width = window.innerWidth;
     var height = window.innerHeight;
@@ -8,7 +12,6 @@
      
     var scene = new THREE.Scene;
     scene.background = new THREE.Color( 0xf0f0f0 );
-    console.log(scene);
     var cubeGeometry = new THREE.CubeGeometry(20, 20, 20, 5, 5, 5);
     var cubeMaterial;
     var cube;
@@ -27,10 +30,8 @@
             theCubical = object;
             theCubical.position.y = 2;
             theCubical.rotation.z = 2;
-            console.log('theCubical: ', theCubical);
             theCubical.traverse( function ( child ) {
                 if ( child instanceof THREE.Mesh ) {
-                    console.log('child: ', child);
                     child.material.wireframe = true;
                     child.geometry.buffersNeedUpdate;
                     child.geometry.uvsNeedUpdate;
@@ -110,7 +111,6 @@
         renderer.render(scene, camera);
          
         requestAnimationFrame(render);
-        console.log(camera);
     }
 
     //controls = new THREE.OrbitControls( camera, renderer.domElement );

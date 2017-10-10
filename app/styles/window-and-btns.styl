@@ -1,3 +1,6 @@
+.window-frame
+    position: relative
+
 .window
     box-shadow: 0 0 0 99999px rgba(0, 0, 0, .5)
     height: 700px
@@ -11,6 +14,43 @@
         height: 80%
         position: relative
 
+.intro-text-container
+    position: absolute
+    top: 220px
+    left: 0
+    h1
+    h2
+    h3
+    h4
+    h5
+    h6
+    p
+        color: #ffffff
+        transition: transform 0.3s, opacity 0.1s
+        position: relative
+        transform: translateX(-200%)
+        opacity: 0
+        float: left
+        clear: both
+        padding: 5px
+        span
+            z-index: 1
+            position: relative
+    h4
+        background-color: #000000
+    h1
+        font-size: 70px
+    .level-1
+        transition-delay: 0.1s
+    .level-2
+        transition-delay: 0.2s
+    .level-3
+        transition-delay: 0.3s
+    .level-4
+        transition-delay: 0.4s
+    .intro
+        opacity: 1
+        transform: translateX(0)
 
 .focus-btn-container
     width: 50px
@@ -18,24 +58,132 @@
     position: absolute
 
     .btn-text.left
-        right: 61px
-        top: -9px
+        right: 59px
+        top: 4px
         text-align: left
+        p
+            float: right
+        .anime-lines
+            float: left
+            margin-right: 15px
 
     .btn-text.right
-        left: 61px
-        top: -9px
+        left: 59px
+        top: 4px
         text-align: right
+        p
+            float: left
+        .anime-lines
+            float: right
+            margin-left: 15px
 
     .btn-text
         position: absolute
         width: 250px
         color: white
-        
+        .anime-lines
+            width: 0px
+            height: 3px
+            background-color: #444444
+            transition: width 0.3s
+            &:nth-child(3)
+                width: 0px
+            &.intro
+                width: 20px
+                &:nth-child(3)
+                    width: 50px
         p
             text-transform: uppercase
             border-bottom: 1px solid #444444
+            width: 0%
+            overflow: hidden
+            transition: width 0.5s
+            &.intro
+                width: 100%
 
+.big-diamond-container
+    width: 150px
+    height: 150px
+    transform: rotate(45deg)
+    position: absolute
+    display: flex
+    align-items: center
+    justify-content: center
+    right: 80px;
+    top: 215px;
+    z-index: -100
+    cursor: pointer
+    
+    &.intro
+        z-index: 100
+    
+    .big-diamond-btn
+        width: 0px
+        height: 0px
+        position: absolute
+        background-color: #aaaaaa
+        display: flex
+        align-items: center
+        justify-content: center
+        animation-fill-mode: forwards
+        animation-duration: 0.3s
+        padding: 0px
+        transition: width 0.2s, height 0.2s
+        
+        &.intro
+            width: 80px
+            height: 80px
+        
+    &:hover > .big-diamond-btn
+        animation-name: bigBtnAnime
+
+    .btn-text
+        color: #ffffff
+        font-size: 20px
+        transition: transform 0.5s, opacity 0.5s
+        transform: rotate(-45deg) translateX(-100px)
+        opacity: 0
+        &.intro
+            transform: rotate(-45deg) translateX(0px)
+            opacity: 1
+        
+    &:before
+        width: 0px
+        height: 0px
+        background-color: #dddddd
+        position: absolute
+        content: ''
+        z-index: -1
+        animation-fill-mode: forwards
+        animation-duration: 0.2s
+        transition: width 0.2s, height 0.2s
+        transition-delay: 0.1s
+        opacity: 0.5
+        border: 0px solid rgba(255, 255, 255, 0.5)
+        
+    &.intro:before
+        width: 130px
+        height: 130px
+        border-width: 10px
+    
+
+    &:hover:before
+        animation-name: bigBtnBeforeAnime
+        
+        // &:after
+        //     width: 150px
+        //     height: 150px
+        //     background-color: #eeeeee
+        //     position: absolute
+        //     content: ''
+        //     z-index: -1
+        //     transition: background-color 0.5s
+        //     transition: width 0.2s, height 0.2s
+        //     transition-delay: 0.2s
+        //     opacity: 0.5
+            
+        // &:hover:after
+        //     background-color: #fa3000
 
 .diamond
     width: 50px
@@ -47,8 +195,8 @@
     justify-content: center
 
 .diamond-btn
-    width: 20px
-    height: 20px
+    width: 0px
+    height: 0px
     position: absolute
     background-color: #aaaaaa
     display: flex
@@ -57,31 +205,46 @@
     animation-fill-mode: forwards
     animation-duration: 0.8s
     padding: 0px
+    transition: width 0.2s, height 0.2s
+    
+    &.intro
+        width: 20px
+        height: 20px
+        &:after
+            width: 40px
+            height: 40px
+        &:before
+            width: 50px
+            height: 50px
 
     &:hover
         animation-name: example
 
     &:after
-        width: 40px
-        height: 40px
+        width: 0px
+        height: 0px
         background-color: #dddddd
         position: absolute
         content: ''
         z-index: -1
         animation-fill-mode: forwards
         animation-duration: 0.5s
+        transition: width 0.2s, height 0.2s
+        transition-delay: 0.1s
 
     &:hover:after
         animation-name: example2
 
     &:before
-        width:50px
-        height: 50px
+        width: 0px
+        height: 0px
         background-color: #eeeeee
         position: absolute
         content: ''
         z-index: -1
         transition: background-color 0.5s
+        transition: width 0.2s, height 0.2s
+        transition-delay: 0.2s
 
     &:hover:before
         background-color: #fa3000
@@ -104,3 +267,25 @@
         width: 40px
         height: 40px
         background-color: #ff5000
+        
+@keyframes bigBtnAnime
+    50%
+        // width: 0px
+        // height: 0px
+        transform: scale(0)
+    100% 
+        // width: 80px
+        // height: 80px
+        transform: scale(1)
+        background-color: #fa3000
+
+@keyframes bigBtnBeforeAnime
+    50% 
+        // width: 0px
+        // height: 0px
+        transform: scale(0)
+    100% 
+        // width: 130px
+        // height: 130px
+        transform: scale(1)
+        border-color: rgba(250, 48, 0, 0.5)
