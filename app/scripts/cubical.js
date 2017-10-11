@@ -24,10 +24,12 @@ export default class Cubical {
         return new Promise((resolve, reject) => {
             const loader = new THREE.TextureLoader();
             loader.load(texturePath, texture => {
+                const alpha = loader.load('../imgs/Square_Standard_simple_alpha.jpg');
                 const geometry = new THREE.CubeGeometry(size.h, size.w, size.d);
                 const meshMaterial = new THREE.MeshStandardMaterial({
-                    transparent: false,
-                    map: texture
+                    transparent: true,
+                    map: texture,
+                    alphaMap:alpha
                 });
                 meshMaterial.side = THREE.DoubleSide;
                 const cube = new THREE.Mesh(geometry, meshMaterial);
@@ -162,8 +164,8 @@ export default class Cubical {
     }
 
     createMainLight() {
-        const pointLight = new THREE.HemisphereLight(0xffffff);
-        pointLight.position.set(0, 300, 200);
+        const pointLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 5);
+        //pointLight.position.set(0, 300, 200);
         this.scene.add(pointLight);
     }
 
@@ -208,7 +210,7 @@ export default class Cubical {
         this.camera.position.z = 85;
 
         this.scene.add(this.camera);
-        // new THREE.OrbitControls( this.camera, this.renderer.domElement );
+        new THREE.OrbitControls( this.camera, this.renderer.domElement );
     }
 
     embed3D(selector) {
@@ -223,8 +225,8 @@ export default class Cubical {
 
 
     render() {
-        this.camera.position.x = this.mouse.x * Math.cos(this.rotSpeed) * Math.sin(this.rotSpeed);
-        this.camera.position.y = this.mouse.y * Math.cos(this.rotSpeed) * Math.sin(this.rotSpeed);
+        //this.camera.position.x = this.mouse.x * Math.cos(this.rotSpeed) * Math.sin(this.rotSpeed);
+        //this.camera.position.y = this.mouse.y * Math.cos(this.rotSpeed) * Math.sin(this.rotSpeed);
         this.camera.lookAt(this.scene.position);
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame(() => this.render());
