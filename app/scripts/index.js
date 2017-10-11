@@ -1,5 +1,6 @@
 import angular from 'angular';
-require('./cubical');
 import FocusbtnsController from './focusbtns.controller';
+import Cubical from './cubical';
 export default angular.module('shapesite', [])
-    .controller('FocusbtnsController', FocusbtnsController);
+    .controller('FocusbtnsController', FocusbtnsController)
+    .controller('Cubical', Cubical);

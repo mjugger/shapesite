@@ -7,8 +7,8 @@ html(ng-app='shapesite')
         link(rel='stylesheet', href='css/styles.css')
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
         link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
-    body
-        #wrapper
+    body(ng-controller='Cubical as $cubical')
+        #wrapper(ng-mousemove='$cubical.onDocumentMouseMove($event)')
             .window-frame(ng-controller='FocusbtnsController as $ctrl')
                 nav.top-nav
                     .logo(ng-class='{intro: $ctrl.permanentIntros}')
@@ -111,6 +111,7 @@ html(ng-app='shapesite')
                     p
                         span chat
                         |now with one of our experts
+            #cubical-holder
             ng-view
             block content
     script(src='https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.min.js')

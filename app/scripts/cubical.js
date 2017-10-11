@@ -2,118 +2,231 @@ require('./OBJLoader');
 require('./OrbitControls');
 require('./lzma');
 
-(() => {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(width, height);
-    document.body.appendChild(renderer.domElement);
-     
-    var scene = new THREE.Scene;
-    scene.background = new THREE.Color( 0xf0f0f0 );
-    var cubeGeometry = new THREE.CubeGeometry(20, 20, 20, 5, 5, 5);
-    var cubeMaterial;
-    var cube;
-    var floor;
-    var cubes = [];
-    function randomColorMesh() {
-        return new THREE.Color(parseInt('0x'+Math.floor(Math.random()*16777215).toString(16), 16));
+export default class Cubical {
+    constructor() {
+        this.windowWidth = window.innerWidth;
+        this.windowHeight = window.innerHeight;
+        this.renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+        this.renderer.setSize(this.windowWidth, this.windowHeight);
+        this.mouse = new THREE.Vector3( 0, 0, 1 );
+        this.scene = null;
+        this.camera = null;
+        this.rotSpeed = 0.01;
+        this.threeDContainerSelector = '#cubical-holder';
+        this.coreCubicalDimensions = new THREE.Vector3(5, 5, 5);
+        this.createEnvironment();
     }
 
-    var cubicalLoader = new THREE.OBJLoader();
-    var theCubical;
-    // load a resource
-    cubicalLoader.load(
-        '../STUCT_LOW-RES-resized.obj',
-        function ( object ) {
-            theCubical = object;
-            theCubical.position.y = 2;
-            theCubical.rotation.z = 2;
-            theCubical.traverse( function ( child ) {
-                if ( child instanceof THREE.Mesh ) {
-                    child.material.wireframe = true;
-                    child.geometry.buffersNeedUpdate;
-                    child.geometry.uvsNeedUpdate;
-                }
-            });
-            scene.add( theCubical );
-            document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-            render();
+    createCube(texturePath, size, position) {
+        return new Promise((resolve, reject) => {
+            const loader = new THREE.TextureLoader();
+            loader.load(texturePath, texture => {
+                const geometry = new THREE.CubeGeometry(size.h, size.w, size.d);
+                const meshMaterial = new THREE.MeshStandardMaterial({
+                    transparent: false,
+                    map: texture
+                });
+                meshMaterial.side = THREE.DoubleSide;
+                const cube = new THREE.Mesh(geometry, meshMaterial);
+                cube.position.copy(position);
+                resolve(cube);
+            }, null, error => reject(error));
+        });
+    }
+
+    createDevCube(texturePath, size, position, i) {
+        var x = document.createElement("canvas");
+        var xc = x.getContext("2d");
+        x.width = x.height = 128;
+        xc.shadowColor = "#000";
+        xc.shadowBlur = 7;
+        xc.fillStyle = "orange";
+        xc.font = "30pt arial bold";
+        xc.fillText(i, 10, 64);
+        return new Promise((resolve, reject) => {
+            const loader = new THREE.TextureLoader();
+            loader.load(texturePath, texture => {
+                const geometry = new THREE.CubeGeometry(size.h, size.w, size.d);
+                const meshMaterial = new THREE.MeshStandardMaterial({
+                    transparent: false,
+                    map: new THREE.Texture(x)
+                });
+                meshMaterial.map.needsUpdate = true;
+                meshMaterial.side = THREE.DoubleSide;
+                const cube = new THREE.Mesh(geometry, meshMaterial);
+                cube.position.copy(position);
+                resolve(cube);
+            }, null, error => reject(error));
+        });
+    }
+
+    assimbleCubicalShape() {
+        const cubeTexturePath = '../imgs/Square_Standard_simple.png';
+        const cubePromises = [];
+        const amountOfCubes = (
+            this.coreCubicalDimensions.x
+            *
+            this.coreCubicalDimensions.y
+            *
+            this.coreCubicalDimensions.z
+        );
+        let cubePosition;
+        let posX = 0;
+        let posY = 0;
+        let posZ = 0;
+        const cubeDimensions = {
+            w: 4,
+            h: 4,
+            d: 4
+        };
+
+        const skipCubeArray = [
+            3,4,9,16,
+            20,21,22,23,
+            24,45,46,47,
+            48,49,50,70,
+            71,73,74,77,
+            79,94,95,96,
+            97,98,99,101,
+            102,103,104,105,
+            107,109,111,113,
+            114,115,116,117,
+            118,119,120,121,
+            122,123,124
+        ];
+        //TODO: research if there's a more efficient way to build a cube of cubes
+        for(var i = 0; i < amountOfCubes; i++) {
+
+
+            if (posZ === (this.coreCubicalDimensions.z - 1) * cubeDimensions.d) {
+                posX += (cubeDimensions.w * this.coreCubicalDimensions.x)%posZ;
+                posX = posX%(this.coreCubicalDimensions.x * cubeDimensions.w);
+            }
+            if (
+                posZ === (this.coreCubicalDimensions.z - 1) * cubeDimensions.d
+                &&
+                posX === (this.coreCubicalDimensions.x - 1) * cubeDimensions.w
+            ) {
+                posY += (cubeDimensions.h * this.coreCubicalDimensions.y)%posX;
+                posY = posY%(this.coreCubicalDimensions.y * cubeDimensions.h);
+            }
+            posZ = (i%this.coreCubicalDimensions.z) * cubeDimensions.d;
+            if (skipCubeArray[0] === i) {
+                skipCubeArray.shift();
+            }else {
+                cubePosition = new THREE.Vector3(posX, posY, posZ);
+                cubePromises.push(this.createCube(cubeTexturePath, cubeDimensions, cubePosition));
+            }
+
         }
-    );
+        return new Promise((resolve, reject) => {
+            Promise.all(cubePromises)
+            .then(cubes => {
+                const group = new THREE.Object3D();
+                cubes.forEach(cube => group.add(cube));
+                console.log(group);
+                group.position.x = -3;
+                group.position.y = -6;
+                group.position.z = -6;
+                
+                // group.translate( 0, 0, 0 );
+                group.rotation.z = 1;
+                group.rotation.y = 1;
+                //group.rotation.x = 1;
+                return group;
+            })
+            .then(group => this.scene.add(group))
+            .then(() => resolve())
+            .catch(error => reject(`assimbleCubicalShape ERROR: ${error}`));
+        });
 
-        // FLOOR
-    var loader = new THREE.TextureLoader();
-    loader.load('../imgs/MATRIX_CORE_DISPLACEMENT_8K.png', function ( texture ) {
-
-    var floorMaterial = new THREE.MeshBasicMaterial({
-        map: texture,
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.1
-    });
-    var floorGeometry = new THREE.PlaneGeometry(100, 100, 10, 10);
-    floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    //floor.position.y = -20;
-    floor.rotation.x = Math.PI / 2;
-    floor.position.y = -10;
-    scene.add(floor);
-    });
-
-
-    var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
-
-    //camera.position.y = 30;
-    //camera.position.z = 30;
-
-    camera.position.x = 32;
-    camera.position.y = -11;
-    camera.position.z = 65;
-
-    scene.add(camera);
-     
-    renderer.render(scene, camera);
-
-
-    var mouse = new THREE.Vector3( 0, 0, 1 );
-    function onDocumentMouseMove( event ) {
-        mouse.x = ( event.clientX - window.innerWidth / 2 );
-        mouse.y = ( event.clientY - window.innerHeight / 2 );
     }
 
-    var skyboxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
-    var skyboxMaterial = new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.BackSide });
-    var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
-     
-    scene.add(skybox);
-
-    var pointLight = new THREE.PointLight(0xffffff);
-    pointLight.position.set(0, 300, 200);
-     
-    scene.add(pointLight);
-
-    renderer.render(scene, camera);
-
-    function render() {
-        var rotSpeed = 0.01;
-        //theCubical.rotation.y = ( ( mouse.x - theCubical.rotation.y ) * .00008);
-        //theCubical.rotation.x =  mouse.x * Math.cos(rotSpeed) * Math.sin(rotSpeed);
-        //floor.rotation.y =  ( ( - mouse.y  - floor.rotation.y ) * .0008);
-        //theCubical.rotation.z =  ( ( - mouse.y  - theCubical.rotation.z ) * .00008);
-
-        camera.position.x = mouse.x * Math.cos(rotSpeed) * Math.sin(rotSpeed);
-        camera.position.y = mouse.y * Math.cos(rotSpeed) * Math.sin(rotSpeed);
-        //camera.position.z = z * Math.cos(rotSpeed) - x * Math.sin(rotSpeed);
-        //camera.position.y = -( ( mouse.y - camera.position.y ) * .008);
-        //camera.position.x = - ( ( - mouse.x  - camera.position.x ) * .005);
-        camera.lookAt(scene.position);
-        renderer.render(scene, camera);
-         
-        requestAnimationFrame(render);
+    createEnvironment() {
+        this.scene = new THREE.Scene;
+        this.scene.background = new THREE.Color(0xf0f0f0);
+        Promise.all([
+            this.createFloor(),
+            this.assimbleCubicalShape()
+        ])
+        .then(() => this.createMainCamera())
+        .then(() => this.createMainLight())
+        .then(() => this.createSkyBox())
+        .then(() => this.embed3D(this.threeDContainerSelector))
+        .then(() => this.renderer.render(this.scene, this.camera))
+        .then(() => this.render())
+        .catch(error => console.log(`promise.all error in constructor: ${error}`));
     }
 
-    //controls = new THREE.OrbitControls( camera, renderer.domElement );
+    createMainLight() {
+        const pointLight = new THREE.HemisphereLight(0xffffff);
+        pointLight.position.set(0, 300, 200);
+        this.scene.add(pointLight);
+    }
+
+    createSkyBox() {
+        const skyboxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
+        const skyboxMaterial = new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.BackSide });
+        const skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+        this.scene.add(skybox);
+    }
+
+    createFloor() {
+        return new Promise((resolve, reject) => {
+            const loader = new THREE.TextureLoader();
+            loader.load('../imgs/MATRIX_CORE_DISPLACEMENT_8K.png', texture => {
+
+            const floorMaterial = new THREE.MeshBasicMaterial({
+                map: texture,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.1
+            });
+                const floorGeometry = new THREE.PlaneGeometry(100, 100, 10, 10);
+                const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+                //floor.position.y = -20;
+                floor.rotation.x = Math.PI / 2;
+                floor.position.y = -10;
+                this.scene.add(floor);
+                resolve();
+            }, null, error => reject(error));
+        });
+    }
+
+    createMainCamera() {
+        this.camera = new THREE.PerspectiveCamera(
+                    45,
+                    (this.windowWidth / this.windowHeight),
+                    0.1,
+                    10000
+                );
+        this.camera.position.x = 32;
+        this.camera.position.y = -11;
+        this.camera.position.z = 85;
+
+        this.scene.add(this.camera);
+        // new THREE.OrbitControls( this.camera, this.renderer.domElement );
+    }
+
+    embed3D(selector) {
+        const domEl = document.querySelector(selector);
+        domEl.appendChild(this.renderer.domElement);
+    }
+
+    onDocumentMouseMove(event) {
+        this.mouse.x = ( event.clientX - this.windowWidth / 2 );
+        this.mouse.y = ( event.clientY - this.windowHeight / 2 );
+    }
 
 
-})();
+    render() {
+        this.camera.position.x = this.mouse.x * Math.cos(this.rotSpeed) * Math.sin(this.rotSpeed);
+        this.camera.position.y = this.mouse.y * Math.cos(this.rotSpeed) * Math.sin(this.rotSpeed);
+        this.camera.lookAt(this.scene.position);
+        this.renderer.render(this.scene, this.camera);
+        requestAnimationFrame(() => this.render());
+    }
+}

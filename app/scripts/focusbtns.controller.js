@@ -9,7 +9,7 @@ export default class FocusbtnsController {
             this.mainHompageIntro();
             this.permanentIntro();
             //this.focusBtnIntro();
-        }, 1000);
+        }, 100);
     }
 
     permanentIntro() {
