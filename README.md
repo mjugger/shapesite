@@ -19,3 +19,4 @@ to do a build just run:
 gulp
 ```
 from the command line. Once the files are built, `gulp` will watch for changes in `.pug`, `.styl`, and `.js` files.
+If the `gulp` command doesn't work then you may have to install `gulp` globally as well.
