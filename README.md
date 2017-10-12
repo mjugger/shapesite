@@ -1,7 +1,7 @@
 # shapesite
 web application for shape security
 
-#Get up and running
+# Get up and running
 install
 ```
 npm install
