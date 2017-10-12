@@ -10,9 +10,9 @@ then
 ```
 node index.js
 ```
-to start the express server and then go to `localhost:3003` to see the site.
+to start the express server. Go to `localhost:3003` to see the site.
 The web server runs the site from the `dist/` build directory.
-#How to build
+# How to build
 This project leverages `gulp.js` to build the project and watch for changes.
 to do a build just run:
 ```
