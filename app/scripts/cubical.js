@@ -20,6 +20,13 @@ export default class Cubical {
         this.createEnvironment();
     }
 
+    /**
+     * [createCube: creates a cube for use in the homepage abstract shape]
+     * @param  {[String]} texturePath [the file path to the texture image]
+     * @param  {[Object]} size        [dimensions of the cube: w = width, h = height, d = depth]
+     * @param  {[Object]} position    [a THREE Vector3 object used to position the cube]
+     * @return {[Promise]}            [contains the constructed cube]
+     */
     createCube(texturePath, size, position) {
         return new Promise((resolve, reject) => {
             const loader = new THREE.TextureLoader();
@@ -39,6 +46,14 @@ export default class Cubical {
         });
     }
 
+    /**
+     * [createDevCube: creates a cube with numbers on each cube face]
+     * @param  {[String]} texturePath [the file path to the texture image]
+     * @param  {[Object]} size        [dimensions of the cube: w = width, h = height, d = depth]
+     * @param  {[Object]} position    [a THREE Vector3 object used to position the cube]
+     * @param  {[Number]} i           [the number of the current cube from the loop]
+     * @return {[Promise]}            [contains the constructed cube with a number on each side]
+     */
     createDevCube(texturePath, size, position, i) {
         var x = document.createElement("canvas");
         var xc = x.getContext("2d");
@@ -65,6 +80,10 @@ export default class Cubical {
         });
     }
 
+    /**
+     * [assimbleCubicalShape: generates multiple cubes to create the homepage abstract shape]
+     * @return {[Promise]} [contains all the generated cubes as one object group]
+     */
     assimbleCubicalShape() {
         const cubeTexturePath = '../imgs/Square_Standard_simple.png';
         const cubePromises = [];
@@ -84,7 +103,8 @@ export default class Cubical {
             h: 4,
             d: 4
         };
-
+        // array of cubes to skip
+        // so the cubical has a more abstract look
         const skipCubeArray = [
             3,4,9,16,
             20,21,22,23,
